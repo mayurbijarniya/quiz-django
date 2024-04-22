@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .card-header {
+        background-color: #007bff;
+        color: white;
+    }
+    .card-body {
+        background-color: #f8f9fa;
+    }
+    .card-footer {
+        background-color: #e9ecef;
+    }
+    .form-check-input {
+        cursor: pointer;
+    }
+    .form-check-label {
+        cursor: pointer;
+    }
+    .btn-block {
+        margin-top: 20px;
+    }
+</style>
+
+
+<div id="app" class="mt-5 pt-5">
+    <div class="container">
+        <form @submit.prevent="handleSubmit()">
+            <div v-for="(question, index) in questions" :key="question.id" class="card mb-4">
+                <div class="card-header">
+                    Question [[index + 1]]
+                </div>
+                <div class="card-body">
+                    <p class="card-text">[[ question.question ]]</p>
+                    <div class="form-check" v-for="(option, i) in question.options" :key="i">
+                        <input class="form-check-input" type="radio" :id="'option-' + question.id + '-' + i"
+                               @change="check(index, i, question.id)" :name="'question-' + question.id"
+                               :value="option">
+                        <label class="form-check-label" :for="'option-' + question.id + '-' + i">
+                            [[ option ]]
+                        </label>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <p :id="'show_message-' + question.id"></p>
+                </div>
+            </div>
+            <button class="btn btn-success btn-lg btn-block" type="submit">Submit Quiz</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+<script>
+    var app = new Vue({
+        delimiters: ['[[', ']]'],
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            course_id: '{{id}}',
+            questions: [],
+            solutions: []
+        },
+        methods: {
+            greet: function (name) {
+                console.log('Hello from ' + name + '!')
+            },
+            check(question_index, option_index, id) {
+                var question = this.questions[question_index]
+                var element = document.getElementById(`show_message-${id}`)
+
+                var radios = document.querySelectorAll(`#radio-${id}`)
+                for (var i = 0; i < radios.length; i++) {
+                    radios[i].disabled = true
+                }
+
+                var solution = {
+                    'question_id': id,
+                    'option': option_index + 1
+                }
+                this.solutions.push(solution)
+            },
+            handleSubmit() {
+        
+                fetch('/api/check_score', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                       data : JSON.stringify(this.solutions),
+                       course_id : this.course_id
+                    })
+                })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result)
+                window.location = '/view_score'
+            })
+
+        }
+    },
+
+    mounted() {
+
+        fetch(`/api/${this.course_id }`)
+            .then(res => res.json())
+            .then(result => {
+                this.questions = result
+
+            })
+
+    }
+    });
+</script>
+
+{% endblock %}

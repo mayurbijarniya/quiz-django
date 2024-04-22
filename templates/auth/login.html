@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .container {
+      padding-top: 80px; /* Adds more space at the top for better visual spacing */
+  }
+
+  .form-signin {
+      background: #f7f7f7; /* Light grey background */
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+
+  .form-signin .form-control {
+      position: relative;
+      box-sizing: border-box;
+      height: auto;
+      padding: 10px;
+      font-size: 16px;
+  }
+
+  .form-signin .form-control:focus {
+      z-index: 2; /* Raises the z-index of the input on focus */
+  }
+
+  .form-signin label {
+      color: #0d6efd; /* Bootstrap primary color for label consistency */
+      font-size: 15px; /* Slightly larger label text */
+  }
+</style>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form class="form-signin" method="post">
+                {% csrf_token %}
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+                {% endif %}
+                <h1 class="h3 mb-3 font-weight-normal text-center">Please Login</h1>
+                
+                <div class="form-group">
+                    <label for="inputEmail">Email address</label>
+                    <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                </div>
+                
+                <p>Don't have an account? <a href="{% url 'register_attempt' %}">Register</a></p>
+                
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

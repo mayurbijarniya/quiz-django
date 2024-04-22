@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .card {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow to each card */
+        transition: transform 0.3s ease-in-out; /* Smooth transformation on hover */
+    }
+    .card:hover {
+        transform: scale(1.05); /* Slightly enlarges the card on hover */
+    }
+</style>
+
+<div class="container mt-5 pt-5">
+    <h2 class="text-center mb-4" style="font-weight: bold; color: #007bff;">Select a Quiz</h2> 
+
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.course_name }}</h5>
+                    <a href="/{{ course.id }}" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

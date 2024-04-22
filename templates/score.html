@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .container {
+      max-width: 800px; /* Restricts the card's width for better readability */
+  }
+  .card-header {
+      background-color: #007bff; /* Primary color for the header */
+      color: white; /* White text for contrast */
+  }
+  .badge-primary {
+      background-color: #6c757d; /* Dark badge for the score, adjust color as necessary */
+  }
+</style>
+
+<div class="container mt-5">
+    <div class="card">
+        <h5 class="card-header">Your Scores</h5>
+        <ul class="list-group list-group-flush">
+            {% for s in score %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ s.course.course_name }}
+                <span class="badge badge-primary badge-pill">{{ s.score }}</span>
+            </li>
+            {% empty %}
+            <li class="list-group-item">
+                <p class="text-center">You haven't given any exam yet.</p>
+                <div class="text-center">
+                    <a class="btn btn-dark" href="/">Give Exam</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

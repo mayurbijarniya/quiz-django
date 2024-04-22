@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Quiz App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl4sxvHEGPKg0D4ORJqQdyDLlWL9sRft2r5HdRilXdJRw5mAokaPFVo1FVs" crossorigin="anonymous"></script>
+
+    <style>
+      .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+      }
+  
+      @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+              font-size: 3.5rem;
+          }
+      }
+      html, body {
+          height: 100%;
+          margin: 0;
+      }
+      .page-container {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+      }
+      .content-wrap {
+          flex: 1;
+          padding-bottom: 4rem; /* Footer height */
+      }
+      .navbar-custom {
+          background-color: #001f3f; /* Navy Blue */
+          color: white;
+      }
+      /* Custom Button Styles */
+      .btn-custom-login {
+      background-color: #28a745; /* Bootstrap green */
+      border-color: #28a745;
+      }
+
+      .btn-custom-register {
+      background-color: #007bff; /* Bootstrap blue */
+      border-color: #007bff;
+      }
+
+      .btn-custom-viewmarks {
+      background-color: #6f42c1; /* Bootstrap purple */
+      border-color: #6f42c1;
+      }
+
+      .btn-custom-logout {
+      background-color: #dc3545; /* Bootstrap red */
+      border-color: #dc3545;
+      }
+
+      /* Hover effects for buttons */
+      .btn-custom-login:hover, .btn-custom-register:hover, .btn-custom-viewmarks:hover, .btn-custom-logout:hover {
+      opacity: 0.85;
+      transform: scale(1.05);
+      transition: all 0.3s ease-in-out;
+      color: white;
+      }
+
+      footer {
+          background-color: #001f3f; /* Navy Blue */
+          color: white;
+          padding: 20px 0;
+      }
+      footer a {
+          color: white;
+      }
+      footer a:hover {
+          text-decoration: underline;
+      }
+  </style>
+  
+</head>
+<body class="page-container">
+    <div class="content-wrap">
+      <nav class="navbar navbar-expand-lg navbar-light navbar-custom shadow p-3">
+        <a class="navbar-brand" href="#" style="color: white;"><b>Quiz App</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/" style="color: white;">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if not request.user.is_authenticated %}
+                <a class="btn btn-custom-login  mr-2" href="{% url 'login_attempt' %}">Login</a>
+                <a class="btn btn-custom-register" href="{% url 'register_attempt' %}">Register</a>
+                {% else %}
+                <a class="btn btn-custom-viewmarks mr-2" href="{% url 'view_score' %}">View Score</a>
+                <a class="btn btn-custom-logout" href="{% url 'logout_attempt' %}">Logout</a>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    
+
+        {% block content %}
+        <!-- Main content that changes for each page can go here -->
+        {% endblock content %}
+    </div>
+    {% block footer %}
+    <footer class="text-white mt-4">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>About Quiz App</h5>
+                    <p>
+                      Quiz App is the ultimate platform for testing your knowledge on a wide range of topics, from science to pop culture. Our mission is to make learning fun and accessible for all. Users can challenge friends, track progress, and engage with our ever-expanding database of questions. Join us to enhance your trivia skills and enjoy a dynamic, educational experience.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Contact Us</h5>
+                    <p>Email: contact@quizapp.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center py-3" style="background-color: #004225;">
+          © 2024 Quiz App, Inc.
+      </div>
+      
+    </footer>
+    {% endblock footer %}
+</body>
+</html>
