@@ -1,0 +1,3 @@
+[build]
+command = "echo 'You must set up static export for Django! See README.'"
+publish = "static_site"
